@@ -53,6 +53,6 @@ jobs:
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               -e AWS_REGION=${{ secrets.AWS_REGION }} \
               -e S3_BUCKET=${{ secrets.S3_BUCKET }} \
-              -e S3_ENABLED=false \
+              -e S3_ENABLED=true \
               -e EFS_PATH=/mnt/efs/guias-despacho \
               ${{ secrets.DOCKERHUB_USERNAME }}/gestion-guias-despacho:latest
