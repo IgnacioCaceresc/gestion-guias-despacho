@@ -41,7 +41,6 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          debug: true
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/gestion-guias-despacho:latest
             sudo docker stop gestion-guias-despacho || true
@@ -49,6 +48,9 @@ jobs:
             sudo docker run -d \
               --name gestion-guias-despacho \
               -p 8080:8080 \
+              -e DB_URL="${{ secrets.DB_URL }}" \
+              -e DB_USER="${{ secrets.DB_USER }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               -e AWS_REGION=${{ secrets.AWS_REGION }} \
               -e S3_BUCKET=${{ secrets.S3_BUCKET }} \
               -e S3_ENABLED=false \
