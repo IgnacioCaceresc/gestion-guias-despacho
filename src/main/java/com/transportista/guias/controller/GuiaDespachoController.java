@@ -38,7 +38,11 @@ public class GuiaDespachoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GuiaDespacho crear(@Valid @RequestBody GuiaDespachoRequest request) {
-        return guiaDespachoService.crear(request);
+        // 1. Crea la guía en Oracle y genera el archivo en el EFS local
+        GuiaDespacho nuevaGuia = guiaDespachoService.crear(request);
+        
+        // 2. Automáticamente toma esa misma guía recién creada y la sube a S3
+        return guiaDespachoService.subirAS3(nuevaGuia.getId());
     }
 
     @GetMapping
